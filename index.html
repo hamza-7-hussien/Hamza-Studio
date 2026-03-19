@@ -9,7 +9,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <style>
 /* الأساسيات */
-* { box-sizing: border-box; margin:0; padding:0; }
+* { 
+  box-sizing: border-box; 
+  margin:0; 
+  padding:0; 
+  /* السطر ده بيشيل اللون الأزرق اللي بيظهر عند اللمس في الموبايل */
+  -webkit-tap-highlight-color: transparent; 
+}
 body {
   font-family: 'Poppins', 'Cairo', sans-serif;
   background: #0a0a0a; color: white; text-align: center; overflow-x: hidden;
@@ -181,17 +187,33 @@ const auth = firebase.auth();
 
 let currentUser = null;
 
+// التحقق من وجود جلسة دخول سابقة مخزنة في المتصفح
+const savedUser = localStorage.getItem('7studios_user');
+if (savedUser) {
+    currentUser = JSON.parse(savedUser);
+    document.getElementById('login-overlay').style.display = 'none';
+}
+
 function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
   auth.signInWithPopup(provider).then((result) => {
     currentUser = result.user;
+    // حفظ بيانات المستخدم الأساسية
+    localStorage.setItem('7studios_user', JSON.stringify({
+        displayName: currentUser.displayName,
+        uid: currentUser.uid
+    }));
     document.getElementById('login-overlay').style.display = 'none';
-  }).catch((error) => { console.error(error); });
+  }).catch((error) => { console.error("Login Error:", error); });
 }
 
 auth.onAuthStateChanged((user) => {
   if (user) {
     currentUser = user;
+    localStorage.setItem('7studios_user', JSON.stringify({
+        displayName: user.displayName,
+        uid: user.uid
+    }));
     document.getElementById('login-overlay').style.display = 'none';
   }
 });
@@ -199,7 +221,7 @@ auth.onAuthStateChanged((user) => {
 const translations = {
   en: { sectionTitle: "DESIGNS", contactTitle: "Contact Us", postBtn: "Post", placeholder: "Add a comment...", noComments: "No comments yet..." },
   ar: { sectionTitle: "التصاميم", contactTitle: "تواصل معنا", postBtn: "نشر", placeholder: "أضف تعليقاً...", noComments: "لا توجد تعليقات بعد..." },
-  es: { sectionTitle: "DISEÑOS", contactTitle: "Contáctenos", postBtn: "Publicار", placeholder: "Añadir un comentario...", noComments: "Sin comentarios aún..." }
+  es: { sectionTitle: "DISEÑOS", contactTitle: "Contáctenos", postBtn: "Publicar", placeholder: "Añadir un comentario...", noComments: "Sin comentarios aún..." }
 };
 
 let currentLang = 'en';
@@ -242,7 +264,7 @@ imagesLinks.forEach((src, index) => {
 function openImage(i) {
   currentIndex = i;
   updatePopup();
-  // تعديل هنا: حذفنا الوجود الفيزيائي للقائمة لمنع أي لمس بالخطأ
+  
   const ls = document.getElementById("langSwitcher");
   ls.style.display = "none"; 
   
@@ -273,7 +295,6 @@ function syncFirebaseData(i) {
 
 function closeImage() {
   document.getElementById("popup").style.opacity = "0";
-  // إرجاع القائمة للعمل بمجرد غلق الصورة
   document.getElementById("langSwitcher").style.display = "flex";
   setTimeout(() => document.getElementById("popup").style.display = "none", 500);
 }
