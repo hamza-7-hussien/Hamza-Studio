@@ -22,10 +22,11 @@ body {
 
 #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-/* شاشة تسجيل الدخول بجوجل */
+/* شاشة تسجيل الدخول الإجبارية */
 #login-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center;
+  background: #000; z-index: 9999; 
+  display: flex; justify-content: center; align-items: center;
 }
 .login-card {
   background: rgba(15, 15, 15, 0.95); padding: 40px; border-radius: 25px;
@@ -38,13 +39,15 @@ body {
 }
 .google-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px white; }
 
+/* محتوى الموقع (مخفي في البداية) */
+#main-site-content { display: none; }
+
 /* قائمة تبديل اللغات */
 .lang-switcher {
   position: absolute; top: 15px; right: 15px; z-index: 2000;
   background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 215, 0, 0.3);
   padding: 8px 15px; border-radius: 30px; backdrop-filter: blur(10px);
   display: flex; gap: 15px; align-items: center;
-  transition: opacity 0.3s ease;
 }
 .lang-flag {
   width: 28px; height: 28px; cursor: pointer; border-radius: 50%;
@@ -110,7 +113,7 @@ body {
   <div class="login-card animate__animated animate__zoomIn">
     <img src="https://i.postimg.cc/MTs324rX/IMG-20260317-190541.png" style="width: 80px; border: 2px solid gold; border-radius: 12px; margin-bottom: 10px;">
     <h2 style="color: gold;">7 STUDIOS</h2>
-    <p style="color: #ccc; font-size: 14px;">Sign in to see and add comments</p>
+    <p style="color: #ccc; font-size: 14px;">Sign in with Google to continue</p>
     <button class="google-btn" onclick="signInWithGoogle()">
       <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" width="20">
       Sign in with Google
@@ -118,52 +121,54 @@ body {
   </div>
 </div>
 
-<div class="lang-switcher" id="langSwitcher">
-  <img src="https://flagcdn.com/w80/us.png" class="lang-flag active" onclick="changeLang('en', this)" title="English">
-  <img src="https://flagcdn.com/w80/es.png" class="lang-flag" onclick="changeLang('es', this)" title="Español">
-  <img src="https://flagcdn.com/w80/eg.png" class="lang-flag" onclick="changeLang('ar', this)" title="العربية">
-</div>
+<div id="main-site-content">
+    <div class="lang-switcher" id="langSwitcher">
+      <img src="https://flagcdn.com/w80/us.png" class="lang-flag active" onclick="changeLang('en', this)" title="English">
+      <img src="https://flagcdn.com/w80/es.png" class="lang-flag" onclick="changeLang('es', this)" title="Español">
+      <img src="https://flagcdn.com/w80/eg.png" class="lang-flag" onclick="changeLang('ar', this)" title="العربية">
+    </div>
 
-<canvas id="bg-canvas"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
-<header class="header animate__animated animate__fadeInDown">
-  <img src="https://i.postimg.cc/MTs324rX/IMG-20260317-190541.png" class="logo-img">
-  <h1 class="logo-text">7 STUDIOS</h1>
-</header>
+    <header class="header animate__animated animate__fadeInDown">
+      <img src="https://i.postimg.cc/MTs324rX/IMG-20260317-190541.png" class="logo-img">
+      <h1 class="logo-text">7 STUDIOS</h1>
+    </header>
 
-<section>
-  <h2 id="section-title" class="animate__animated animate__fadeIn" style="color: gold; font-size: 32px; margin-top: 50px; letter-spacing: 3px;">DESIGNS</h2>
-  <div class="images" id="gallery"></div>
-</section>
+    <section>
+      <h2 id="section-title" class="animate__animated animate__fadeIn" style="color: gold; font-size: 32px; margin-top: 50px; letter-spacing: 3px;">DESIGNS</h2>
+      <div class="images" id="gallery"></div>
+    </section>
 
-<div class="popup" id="popup">
-  <span class="close-btn" onclick="closeImage()">×</span>
-  <div class="img-area">
-    <img id="popup-img" draggable="false">
-    <i class="fas fa-heart big-heart" id="bigHeart"></i>
-    <div class="comments-container">
-      <div class="comments-list" id="commentsList"></div>
-      <div class="comment-input-area">
-        <input type="text" id="commentInput" placeholder="Add a comment...">
-        <button id="post-btn" onclick="addComment()">Post</button>
+    <div class="popup" id="popup">
+      <span class="close-btn" onclick="closeImage()">×</span>
+      <div class="img-area">
+        <img id="popup-img" draggable="false">
+        <i class="fas fa-heart big-heart" id="bigHeart"></i>
+        <div class="comments-container">
+          <div class="comments-list" id="commentsList"></div>
+          <div class="comment-input-area">
+            <input type="text" id="commentInput" placeholder="Add a comment...">
+            <button id="post-btn" onclick="addComment()">Post</button>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <i class="fas fa-heart" id="likeBtn" onclick="toggleLike()"></i>
+        <span class="like-display" id="likeCountDisplay">0</span>
+        <i class="fas fa-download" style="color:#00ff88;" onclick="downloadImage()"></i>
+        <i class="fas fa-share-alt" onclick="shareImage()"></i>
       </div>
     </div>
-  </div>
-  <div class="actions">
-    <i class="fas fa-heart" id="likeBtn" onclick="toggleLike()"></i>
-    <span class="like-display" id="likeCountDisplay">0</span>
-    <i class="fas fa-download" style="color:#00ff88;" onclick="downloadImage()"></i>
-    <i class="fas fa-share-alt" onclick="shareImage()"></i>
-  </div>
-</div>
 
-<footer class="contact">
-  <h2 id="contact-title" class="contact-title animate__animated animate__pulse animate__infinite infinite">Contact Us</h2>
-  <div class="social-buttons">
-    <a href="https://instagram.com/im_7amza_7" target="_blank" class="social-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
-    <a href="https://wa.me/201221109955" target="_blank" class="social-btn wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
-  </div>
-</footer>
+    <footer class="contact">
+      <h2 id="contact-title" class="contact-title animate__animated animate__pulse animate__infinite infinite">Contact Us</h2>
+      <div class="social-buttons">
+        <a href="https://instagram.com/im_7amza_7" target="_blank" class="social-btn insta-btn"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://wa.me/201221109955" target="_blank" class="social-btn wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </footer>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database-compat.js"></script>
@@ -180,58 +185,40 @@ const firebaseConfig = {
   appId: "1:760995591996:web:889097b58f5ddf54465039"
 };
 
-// تهيئة Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const auth = firebase.auth();
 
 let currentUser = null;
 
-// 1. التحقق الفوري من الـ localStorage لإخفاء الشاشة بسرعة
-if (localStorage.getItem('7studios_user')) {
-    document.getElementById('login-overlay').style.display = 'none';
-}
-
-// 2. دالة تسجيل الدخول المحسنة
+// دالة تسجيل الدخول الصافية
 function signInWithGoogle() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  // التأكد من ضبط الـ Persistence ليبقى المستخدم مسجلاً
-  auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    .then(() => {
-      return auth.signInWithPopup(provider);
-    })
-    .then((result) => {
-      currentUser = result.user;
-      localStorage.setItem('7studios_user', JSON.stringify({
-          displayName: currentUser.displayName,
-          uid: currentUser.uid
-      }));
-      document.getElementById('login-overlay').style.display = 'none';
-    })
-    .catch((error) => { 
-      console.error("Login Error:", error.message);
-      alert("Login failed: " + error.message);
-    });
+  auth.signInWithPopup(provider).catch((error) => { 
+    console.error("Login Error:", error);
+    alert("Login failed. Check your internet or Firebase settings.");
+  });
 }
 
-// 3. مراقب حالة تسجيل الدخول (دايماً شغال)
+// مراقب الحالة (The Observer): هو المسؤول الوحيد عن إظهار/إخفاء الشاشة
 auth.onAuthStateChanged((user) => {
+  const loginOverlay = document.getElementById('login-overlay');
+  const mainSite = document.getElementById('main-site-content');
+
   if (user) {
     currentUser = user;
-    localStorage.setItem('7studios_user', JSON.stringify({
-        displayName: user.displayName,
-        uid: user.uid
-    }));
-    document.getElementById('login-overlay').style.display = 'none';
+    loginOverlay.style.display = 'none';
+    mainSite.style.display = 'block';
+    // بدء الأنيميشن بعد ظهور المحتوى
+    drawStars(); 
   } else {
-    // لو مش مسجل والـ localStorage فاضي، أظهر الشاشة
-    if (!localStorage.getItem('7studios_user')) {
-      document.getElementById('login-overlay').style.display = 'flex';
-    }
+    currentUser = null;
+    loginOverlay.style.display = 'flex';
+    mainSite.style.display = 'none';
   }
 });
 
-// باقي كود الترجمات والصور كما هو بدون تغيير
+// باقي منطق الموقع (الترجمة، الجاليري، إلخ)
 const translations = {
   en: { sectionTitle: "DESIGNS", contactTitle: "Contact Us", postBtn: "Post", placeholder: "Add a comment...", noComments: "No comments yet..." },
   ar: { sectionTitle: "التصاميم", contactTitle: "تواصل معنا", postBtn: "نشر", placeholder: "أضف تعليقاً...", noComments: "لا توجد تعليقات بعد..." },
@@ -329,6 +316,7 @@ function toggleLike() {
   const inc = wasLiked ? -1 : 1;
   database.ref('likes/photo_' + currentIndex).transaction(v => (v || 0) + inc);
   updatePopup();
+  
   if (likedStatus[currentIndex]) {
     const heart = document.getElementById("bigHeart");
     heart.classList.add("show");
@@ -347,10 +335,12 @@ popupImg.addEventListener("touchend", (e) => {
   let touchEndX = e.changedTouches[0].clientX;
   if (touchStartX - touchEndX > 50) {
     currentIndex = (currentIndex + 1) % imagesLinks.length;
-    updatePopup(); syncFirebaseData(currentIndex);
+    updatePopup();
+    syncFirebaseData(currentIndex);
   } else if (touchEndX - touchStartX > 50) {
     currentIndex = (currentIndex - 1 + imagesLinks.length) % imagesLinks.length;
-    updatePopup(); syncFirebaseData(currentIndex);
+    updatePopup();
+    syncFirebaseData(currentIndex);
   }
 });
 
@@ -358,7 +348,8 @@ popupImg.addEventListener("click", (e) => {
   const currentTime = new Date().getTime();
   const tapLength = currentTime - lastTapTime;
   if (tapLength < 300 && tapLength > 0) {
-    toggleLike(); e.preventDefault();
+    toggleLike();
+    e.preventDefault();
   }
   lastTapTime = currentTime;
 });
@@ -366,17 +357,33 @@ popupImg.addEventListener("click", (e) => {
 function downloadImage() { const a = document.createElement('a'); a.href = imagesLinks[currentIndex]; a.download = '7_STUDIOS.png'; a.click(); }
 function shareImage() { if (navigator.share) navigator.share({ url: imagesLinks[currentIndex] }); }
 
+// تأثير النجوم
 const canvas = document.getElementById('bg-canvas');
 const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth; canvas.height = window.innerHeight;
 let stars = [];
-for(let i=0; i<80; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2, v: Math.random()*0.4});
+
+function initStars() {
+  canvas.width = window.innerWidth; 
+  canvas.height = window.innerHeight;
+  stars = [];
+  for(let i=0; i<80; i++) stars.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2, v: Math.random()*0.4});
+}
+
 function drawStars() {
-  ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "rgba(255,215,0,0.3)";
-  stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= s.v; if(s.y < 0) s.y = canvas.height; });
+  if (!canvas.width) initStars();
+  ctx.clearRect(0,0,canvas.width,canvas.height); 
+  ctx.fillStyle = "rgba(255,215,0,0.3)";
+  stars.forEach(s => { 
+    ctx.beginPath(); 
+    ctx.arc(s.x, s.y, s.s, 0, 7); 
+    ctx.fill(); 
+    s.y -= s.v; 
+    if(s.y < 0) s.y = canvas.height; 
+  });
   requestAnimationFrame(drawStars);
 }
-drawStars();
+
+window.addEventListener('resize', initStars);
 </script>
 </body>
 </html>
