@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hamza Studio | High-End Portfolio</title>
+<title>7 STUDIOS | High-End Portfolio</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -17,7 +17,7 @@ body {
 
 #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
-/* قائمة تبديل اللغات - الثلاثة بجانب بعض */
+/* قائمة تبديل اللغات */
 .lang-switcher {
   position: absolute; top: 15px; right: 15px; z-index: 2000;
   background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 215, 0, 0.3);
@@ -38,8 +38,8 @@ body {
   border-bottom: 2px solid rgba(255, 215, 0, 0.3); 
   display: flex; justify-content: center; align-items: center; gap: 20px;
 }
-.logo-img { width: 110px; height: 110px; object-fit: contain; border: 4px solid #FFD700; border-radius: 15px; background-color: #000; padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-.logo-text { font-size: 42px; font-weight: 700; color: gold; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); }
+.logo-img { width: 100px; height: 100px; object-fit: contain; border: 4px solid #FFD700; border-radius: 15px; background-color: #000; padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+.logo-text { font-size: 38px; font-weight: 700; color: gold; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); letter-spacing: 2px; }
 
 /* Gallery */
 .images { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 700px; margin: auto; padding: 30px 20px 50px 20px; }
@@ -93,11 +93,11 @@ body {
 
 <header class="header animate__animated animate__fadeInDown">
   <img src="https://i.postimg.cc/MTs324rX/IMG-20260317-190541.png" class="logo-img">
-  <h1 class="logo-text">Hamza Studio</h1>
+  <h1 class="logo-text">7 STUDIOS</h1>
 </header>
 
 <section>
-  <h2 id="section-title" class="animate__animated animate__fadeIn" style="color: gold; font-size: 32px; margin-top: 50px; letter-spacing: 3px;">MY DESIGNS</h2>
+  <h2 id="section-title" class="animate__animated animate__fadeIn" style="color: gold; font-size: 32px; margin-top: 50px; letter-spacing: 3px;">DESIGNS</h2>
   <div class="images" id="gallery"></div>
 </section>
 
@@ -131,9 +131,9 @@ body {
 
 <script>
 const translations = {
-  en: { sectionTitle: "MY DESIGNS", contactTitle: "Contact Us", postBtn: "Post", placeholder: "Add a comment...", noComments: "No comments yet..." },
-  ar: { sectionTitle: "تصميماتي", contactTitle: "تواصل معنا", postBtn: "نشر", placeholder: "أضف تعليقاً...", noComments: "لا توجد تعليقات بعد..." },
-  es: { sectionTitle: "MIS DISEÑOS", contactTitle: "Contáctenos", postBtn: "Publicar", placeholder: "Añadir un comentario...", noComments: "Sin comentarios aún..." }
+  en: { sectionTitle: "DESIGNS", contactTitle: "Contact Us", postBtn: "Post", placeholder: "Add a comment...", noComments: "No comments yet..." },
+  ar: { sectionTitle: "التصاميم", contactTitle: "تواصل معنا", postBtn: "نشر", placeholder: "أضف تعليقاً...", noComments: "لا توجد تعليقات بعد..." },
+  es: { sectionTitle: "DISEÑOS", contactTitle: "Contáctenos", postBtn: "Publicar", placeholder: "Añadir un comentario...", noComments: "Sin comentarios aún..." }
 };
 
 let currentLang = 'en';
@@ -243,7 +243,7 @@ popupImg.addEventListener("touchend", e => {
   if (touchEndX - touchStartX > 50) { currentIndex = (currentIndex - 1 + imagesLinks.length) % imagesLinks.length; updatePopup(); }
 });
 
-function downloadImage() { const a = document.createElement('a'); a.href = imagesLinks[currentIndex]; a.download = 'Hamza_Studio.png'; a.click(); }
+function downloadImage() { const a = document.createElement('a'); a.href = imagesLinks[currentIndex]; a.download = '7_STUDIOS.png'; a.click(); }
 function shareImage() { if (navigator.share) navigator.share({ url: imagesLinks[currentIndex] }); }
 
 const canvas = document.getElementById('bg-canvas');
